@@ -1,0 +1,62 @@
+//
+//  DataTypeExtension.swift
+//  Clanunity
+//
+//  Created by wangyadong on 2018/2/27.
+//  Copyright © 2018年 DlmTechnology. All rights reserved.
+//
+
+// MARK: - 数据类型的扩展
+import Foundation
+
+
+extension String{
+    
+    var trim : String{
+        get{
+            let temp = self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines);
+            return temp.trimmingCharacters(in: CharacterSet.whitespaces)
+        }set{}
+    }
+    
+}
+
+extension NSString{
+    
+    /// 剔除字符串
+    var trim : NSString{
+        get{
+            let selfStr  = String.init(self)
+           return NSString.init(string: selfStr);
+        }set{
+            
+        }
+    }
+}
+
+extension NSArray{
+    
+    /// 充满，图片正常显示多出部分切割
+    class func cdi_imagesWithGif(gifNameInBoundle : String) -> (NSMutableArray) {
+        
+        let fileUrl = Bundle.main.url(forResource: gifNameInBoundle, withExtension: "gif")
+        
+        let gifSource = CGImageSourceCreateWithURL(fileUrl! as CFURL, nil)
+        
+        
+        
+        let gifCount = CGImageSourceGetCount(gifSource!)
+        
+        let frames = NSMutableArray.init(capacity: 0)
+        
+        for i in 0...gifCount - 1{
+            let imageRef = CGImageSourceCreateImageAtIndex(gifSource!, i, nil)
+            let image = UIImage.init(cgImage: imageRef!)
+            if i%2 == 0{
+                frames.add(image)
+            }
+        }
+        return frames
+    }
+}
+

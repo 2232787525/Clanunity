@@ -1,0 +1,15 @@
+//
+//  ClanTabbar.h
+//  Clanunity
+//
+//  Created by wangyadong on 2018/5/1.
+//  Copyright © 2018年 DlmTechnology. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface ClanTabbar : UITabBar
+
+@property(nonatomic,strong)UIImageView * selectedImgView;
+
+@end

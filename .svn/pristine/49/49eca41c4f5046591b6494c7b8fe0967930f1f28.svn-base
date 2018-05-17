@@ -1,0 +1,120 @@
+//TODO:带评论的详情页基类
+//此页面内容：
+//        1.表(section0的第一行 为最新评论标题  直接评论显示在section 子评论显示在row  tablefooterView显示空视图)
+//        2.请求评论并显示
+//        3.处理无评论时空页面展示
+//        4.直接评论时的方法(子类“评论”按钮点击调用)
+//        5.回复评论 回复子评论(子类不需要再处理回复评论)
+//        6.直接评论时表自动滑动到评论显示的一行
+//        7.分享字段属性创建
+
+//继承该类后应该做的事：
+//        1.赋值infoId，详情的id(必须)
+//        2.赋值pinlunType，评论类型(必须)
+//        3.详情一般展示在tableView的tableHeaderView(非必须)
+//        **如果空视图显示不全，参照姓氏名人详情中重写emptyShow(show:)方法
+//        其余视情况而定
+
+
+import UIKit
+import MBProgressHUD
+import MJRefresh
+
+//MARK: - ----------------同宗活动详情页
+class BaseTabVC: KBaseClanViewController,UITableViewDelegate {
+    
+    var tableView = UITableView()
+    var footerview = UIView()
+    /// 页数
+    var pno = 1
+    /// 每页个数
+    var pnu = 10
+    
+    lazy var emptyView: EmptySwiftView = {
+        let tempView = EmptySwiftView.showEmptyView(emptyPicName: "empty_comment", describe: "暂无评论，赶快抢个沙发吧！")
+        tempView.centerX_sd = KScreenWidth/2.0
+        return tempView
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.maketableView()
+    }
+    
+    //MARK: - tableView
+    func maketableView(){
+        self.tableView = UITableView.init(frame: CGRect.init(x: 0, y: KTopHeight, width: KScreenWidth, height: KScreenHeight - KTopHeight - F_I6(place: 50)), style: UITableViewStyle.grouped)
+        self.settableView()
+    }
+    
+    //MARK: - tableView
+    func settableView(){
+        
+        self.tableView.backgroundColor = UIColor.white
+        self.tableView.delegate=self
+        self.view.addSubview(self.tableView)
+        tableView.showsVerticalScrollIndicator = false
+        tableView.showsHorizontalScrollIndicator = false
+        tableView.separatorColor = UIColor.cutLineColor
+        tableView.separatorInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
+        
+        let mjheader = MJRefreshGifHeader.init { [weak self] in
+            self?.pno=1;
+            self?.requestforList()
+        }
+        GlobalClass.setMjHeader(mjheader: mjheader!)
+        tableView.mj_header = mjheader
+        
+        self.tableView.mj_footer = MJRefreshAutoNormalFooter{ [weak self] in
+            self?.pno = (self?.pno)! + 1
+            self?.requestforList()
+        }
+        self.tableView.mj_footer.isHidden = true
+        
+        tableView.mj_header.beginRefreshing()
+        
+        /// 自动关闭估算高度，不想估算那个，就设置那个即可
+        tableView.estimatedRowHeight = 0
+        tableView.estimatedSectionHeaderHeight = 0
+        tableView.estimatedSectionFooterHeight = 0
+        
+        footerview = UIView.init(frame: CGRect.init(x: 0, y: 0, width: KScreenWidth, height: 0))
+        footerview.addSubview(emptyView)
+        emptyView.top_sd = 40
+        footerview.clipsToBounds = true
+        tableView.tableFooterView = footerview
+    }
+    
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.0001
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let view = UIView.init()
+        view.backgroundColor = UIColor.white
+        return view
+    }
+    
+    func requestforList(){
+    }
+    
+    func emptyShow(show:Bool){
+        if show{
+            footerview.height_sd = 180
+        }else{
+            footerview.height_sd = 0
+        }
+    }
+    
+    //TODO: - 请求详情
+    func requestforDetail(){
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+}
+
+
+

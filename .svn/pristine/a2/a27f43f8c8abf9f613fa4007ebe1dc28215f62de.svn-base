@@ -1,0 +1,89 @@
+//
+//  CULoginVC.swift
+//  Clanunity
+//
+//  Created by 白bex on 2018/2/1.
+//  Copyright © 2018年 DlmTechnology. All rights reserved.
+//
+import UIKit
+import WebKit
+import MBProgressHUD
+
+//MARK: - ----------------发布动态
+class webVC: KBaseClanViewController,WKNavigationDelegate {
+
+    var wkView : WKWebView!
+    var urlStr = ""
+    var titleStr = ""
+    var bridge = WebViewJavascriptBridge()
+    var getWebTitle = false
+
+    override func kBackBtnAction() {
+        if wkView.canGoBack{
+            wkView.goBack()
+        }else{
+            super.kBackBtnAction()
+        }
+    }
+    
+    //MARK: - 加载页面 绘制UI
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.knavigationBar?.title = titleStr
+        self.makeWebView()
+        self.makeJSBridge()
+    }
+    
+    /// 创建web
+    func makeWebView() -> Void {
+        self.wkView = WKWebView.init(frame: CGRect.init(x: 0, y: KTopHeight, width: KScreenWidth, height: KScreenHeight - KTopHeight))
+        self.view.addSubview(self.wkView)
+        self.loadWebRequest()
+    }
+    
+    /// 创建web
+    func makeJSBridge() -> Void {
+        //开启日志
+        WebViewJavascriptBridge.enableLogging()
+        //给Objc与JS建立桥梁
+        self.bridge = WebViewJavascriptBridge.init(forWebView: self.wkView)
+        self.bridge.setWebViewDelegate(self)
+        self.registerJBHandler()
+    }
+    
+    func registerJBHandler(){
+        //关闭页面
+        self.bridge.registerHandler("closeVC") { (data, responseCallback) in
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    /// 加载webView
+    func loadWebRequest() -> Void {
+        let string = ClanAPI.H5UserName + urlStr
+//        let string = "http://192.168.1.153:8020" + urlStr
+        let request = NSURLRequest.init(url: URL.init(string: string)!)
+        self.wkView.load(request as URLRequest)
+    }
+    
+    //MARK: - WKNavigationDelegate
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        GlobalClass.customProgressHUD(view: self.view)
+    }
+    
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+    }
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+        self.knavigationBar?.title = self.wkView.title
+    }
+
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+}

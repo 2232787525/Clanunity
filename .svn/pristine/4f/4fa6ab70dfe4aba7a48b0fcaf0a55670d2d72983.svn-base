@@ -1,0 +1,385 @@
+//
+//  TextFieldView.m
+//  Bike51
+//
+//  Created by wangyadong on 16/9/9.
+//  Copyright © 2016年 wangyadong. All rights reserved.
+//
+
+#import "FooterReviewView.h"
+
+@implementation FooterReviewView
+
+//+(FooterReviewView *)showFooterViewWithClicked:(void (^)())block{
+//    FooterReviewView *view = [[FooterReviewView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 49)];
+//    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(12, 5, view.width_sd-24, 35)];
+//    backView.centerY_sd = view.height_sd/2.0;
+//    backView.layer.masksToBounds = YES;
+//    backView.layer.cornerRadius = 4;
+//    backView.layer.borderWidth = 0.5;
+//    backView.layer.borderColor = [UIColor cutLineColor].CGColor;
+//    [view addSubview:backView];
+//    
+//    UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0,14 ,18 )];
+//    img.centerY_sd = backView.height_sd/2.0;
+//    [backView addSubview:img];
+//    img.image = [UIImage imageNamed:@"review_pen_icon"];
+//    
+//
+//    UILabel *titleLab = [[UILabel alloc]initWithFrame:CGRectMake(img.right_sd+5, 0, backView.width_sd-30, 20)];
+//    titleLab.text = @"写点什么吧...";
+//    titleLab.font = [UIFont systemFontOfSize:15];
+//    titleLab.textColor = [UIColor textColor3];
+//    
+//    
+//    titleLab.centerY_sd = img.centerY_sd;
+//    [backView addSubview:titleLab];
+//    
+//    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 0.5)];
+//    line.backgroundColor = [UIColor cutLineColor];
+//    [view addSubview:line];
+//    
+//    UIButton *btn = [[UIButton alloc] initWithFrame:backView.bounds];
+//    [btn handleEventTouchUpInsideCallback:^{
+//         block();
+//    }];
+//
+//    [backView addSubview:btn];
+//    
+//    return view;
+//}
+//
+//
+//+(FooterReviewView *)showFooterViewWithCommentClicked:(void (^)())commentblock praiseClicked:(void (^)())praiseBlock{
+//    FooterReviewView *view = [[FooterReviewView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 49)];
+//    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(12, 5, view.width_sd-12-55, 35)];
+//    backView.centerY_sd = view.height_sd/2.0;
+//    backView.layer.masksToBounds = YES;
+//    backView.layer.cornerRadius = 4;
+//    backView.layer.borderWidth = 0.5;
+//    backView.layer.borderColor = [UIColor PLColorDFDFDF_Cutline].CGColor;
+//    [view addSubview:backView];
+//    
+//    UIButton *praiseBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    praiseBtn.frame = CGRectMake(0, 0,55,view.height_sd );
+//    [praiseBtn setImage:[UIImage imageNamed:@"like"] forState:UIControlStateNormal];
+//    praiseBtn.right_sd = view.width_sd;
+//    praiseBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 5);
+//    [view addSubview:praiseBtn];
+//    [praiseBtn handleEventTouchUpInsideWithBlock:^{
+//        praiseBlock();
+//    }];
+//    praiseBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+//    [praiseBtn setTitleColor:[UIColor PLColor999999] forState:UIControlStateNormal];
+//    [praiseBtn setTitle:@"12" forState:UIControlStateNormal];
+//    view.praiseBtn = praiseBtn;
+//    UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0,14 ,18 )];
+//    img.centerY_sd = backView.height_sd/2.0;
+//    [backView addSubview:img];
+//    img.image = [UIImage imageNamed:@"review_pen_icon"];
+//    UILabel *title = [UILabel labelFrame:CGRectMake(img.right_sd+5, 0, backView.width_sd-30-80, 20) text:@"把你想说的说出来吧..." PLfont:[UIFont PLFont15] textPLColor:[UIColor PLColor999999] andTextAlignment:NSTextAlignmentLeft];
+//    title.centerY_sd = img.centerY_sd;
+//    [backView addSubview:title];
+//    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, 0.5)];
+//    line.backgroundColor = [UIColor PLColorDFDFDF_Cutline];
+//    [view addSubview:line];
+//    
+//    UIButton *btn = [[UIButton alloc] initWithFrame:backView.bounds];
+//    [btn handleEventTouchUpInsideWithBlock:^{
+//        commentblock();
+//    }];
+//    [backView addSubview:btn];
+//
+//    return view;
+//}
+//-(void)praise:(BOOL)ispraise praiseCount:(NSInteger)count{
+//    self.ispraise = ispraise;
+//    self.prasiecount = count;
+//    if (self.ispraise) {
+//        [self.praiseBtn setImage:[UIImage imageNamed:@"dianzang_ok"] forState:UIControlStateNormal];
+//    }else{
+//        [self.praiseBtn setImage:[UIImage imageNamed:@"like"] forState:UIControlStateNormal];
+//    }
+//    [self.praiseBtn setTitle:[NSString stringWithFormat:@"%@",@(count)] forState:UIControlStateNormal];
+//    
+//}
+
+@end
+
+
+//MARK: - 评论输入框View
+
+@implementation ReviewInputView
+
+-(instancetype)initWithFrame:(CGRect)frame{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.backgroundColor = [UIColor bgColor2];
+        self.cancle = [[UIButton alloc] initWithFrame:CGRectMake(12,0, 44, 40)];
+        [self.cancle setTitle:@"取消" forState:UIControlStateNormal];
+        [self.cancle setTitleColor:[UIColor textColor2] forState:UIControlStateNormal];
+        self.cancle.titleLabel.font = [UIFont systemFontOfSize:15];
+        [self addSubview:self.cancle];
+        
+        self.titleLab = [[UILabel alloc]initWithFrame:CGRectMake(0,0, 100,20)];
+        self.titleLab.text = @"评论";
+        self.titleLab.font = [UIFont systemFontOfSize:16];
+        self.titleLab.textColor = [UIColor textColor1];
+        self.titleLab.textAlignment = NSTextAlignmentCenter;
+        self.titleLab.centerX_sd = self.width_sd/2.0;
+        self.titleLab.centerY_sd = self.cancle.centerY_sd;
+        [self addSubview:self.titleLab];
+        
+        self.send = [[UIButton alloc] initWithFrame:self.cancle.bounds];
+        [self.send setTitle:@"发送" forState:UIControlStateNormal];
+        [self.send setTitleColor:[UIColor textColor2] forState:UIControlStateNormal];
+        self.send.titleLabel.font = [UIFont systemFontOfSize:15];
+        self.send.right_sd = self.width_sd-12;
+        self.send.centerY_sd = self.cancle.centerY_sd;
+        self.send.layer.cornerRadius = 3;
+        self.send.clipsToBounds = YES;
+        [self addSubview:self.send];
+        
+        self.inputText = [[UITextView alloc] initWithFrame:CGRectMake(12, self.cancle.bottom_sd, self.width_sd-24, 65)];
+        self.inputText.backgroundColor = [UIColor whiteColor];
+        [self addSubview:self.inputText];
+        self.inputText.font = [UIFont systemFontOfSize:14];
+        self.inputText.layer.cornerRadius = 3;
+        self.inputText.clipsToBounds = YES;
+        self.inputText.layer.borderColor = [UIColor cutLineColor].CGColor;
+        self.inputText.layer.borderWidth = 0.5;
+        self.inputText.delegate = self;
+    }
+    return self;
+}
+
+//MARK: - 输入框代理方法
+
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    
+    NSMutableString* textString = [NSMutableString stringWithString:textView.text];
+    [textString replaceCharactersInRange:range withString:text];
+    
+    
+    if ([self.placeStr isEqualToString:@""]){
+        if ([[NSString trimString:textString] length]>0) {
+            [self.send setTitleColor:[UIColor baseColor] forState:UIControlStateNormal];
+        }else{
+            [self.send setTitleColor:[UIColor textColor2] forState:UIControlStateNormal];
+        }
+    }else{
+        if (self.clear == NO){
+            NSInteger placelength = [self.placeStr length];
+            NSString *str = [self.placeStr substringToIndex:placelength-1];
+            
+            if ( [textString isEqualToString:str]){
+                textView.text = @"";
+                self.clear = YES;
+                return YES;
+            }
+        }else{
+            if ([[NSString trimString:textString] length]>0) {
+                [self.send setTitleColor:[UIColor baseColor] forState:UIControlStateNormal];
+            }else{
+                [self.send setTitleColor:[UIColor textColor2] forState:UIControlStateNormal];
+            }
+        }
+    }
+
+    return YES;
+}
+@end
+
+
+@interface commentInputView()
+@property(nonatomic,strong)ReviewInputView * inputView;
+@property(nonatomic,strong)UIView *backView;
+@property(nonatomic,copy)void(^ _Nullable sendTempText)(NSString* _Nonnull text);
+
+@end
+
+static commentInputView * commentView = nil;
+
+@implementation commentInputView
+
++(instancetype)shareInstance{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        commentView = [[commentInputView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, KScreenHeight)];
+        
+       
+        
+        [APPDELEGATE.window addSubview:commentView];
+    });
+    return commentView;
+}
+
+-(instancetype)initWithFrame:(CGRect)frame{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.backgroundColor = [UIColor clearColor];
+        self.backView = [[UIView alloc] initWithFrame:self.bounds];
+        self.backView.backgroundColor = [UIColor blackColor];
+        [self addSubview:self.backView];
+        WeakSelf;
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] bk_initWithHandler:^(UIGestureRecognizer *sender, UIGestureRecognizerState state, CGPoint location) {
+            [weakSelf hidden];
+        }];
+        [self.backView addGestureRecognizer:tap];
+        
+        self.inputView = [[ReviewInputView alloc] initWithFrame:CGRectMake(0, KScreenHeight -  140+65+15 - KTopHeight, KScreenWidth, 40+65+15)];
+        [self addSubview:self.inputView];
+        [self.inputView.cancle handleEventTouchUpInsideCallback:^{
+            [weakSelf hidden];
+            weakSelf.inputView.inputText.text = nil;
+        }];
+        
+        [self.inputView.send handleEventTouchUpInsideCallback:^{
+            
+            if (weakSelf.sendTempText && [weakSelf.inputView.inputText.text length]>0) {
+                
+
+                NSString *sendStr = weakSelf.inputView.inputText.text;
+                NSString *placeStr = weakSelf.inputView.placeStr;
+
+                if ([placeStr isEqualToString:@""]){
+                    if ([[NSString trimString:sendStr] length]>0){
+                        sendStr = [NSString trimString:sendStr];
+                    }
+                }else{
+                    if ([placeStr length]>0 && ([sendStr length]>=[placeStr length]) && [[sendStr substringToIndex:[placeStr length]] isEqualToString:placeStr]){
+                        sendStr = [sendStr substringFromIndex:[placeStr length]];
+                    }
+                    
+                    if ([[NSString trimString:sendStr] length]>0){
+                        sendStr = [NSString trimString:sendStr];
+                    }else{
+                        sendStr = @"";
+                    }
+                }
+
+                
+                if ([sendStr length] > 0){
+                    weakSelf.sendTempText(sendStr);
+                    weakSelf.inputView.clear = NO;
+                }
+                
+                [weakSelf hidden];
+                weakSelf.inputView.inputText.text = nil;
+            }
+            
+        }];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyBoard:) name:UIKeyboardWillShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyBoard:) name:UIKeyboardWillHideNotification object:nil];
+    }
+    return self;
+}
+
+-(void)deallocRemove{
+    [self removeFromSuperview];
+}
+
+//-(void)showcommentViewWithmsg:(NSString *)msg SendText:(void (^)(NSString * _Nonnull))block{
+//    [APPDELEGATE.window addSubview:commentView];
+//    self.sendTempText = block;
+//    self.inputView.titleLab.text = msg;
+//
+//    if ([self.inputView.inputText.text length]>0){
+//        [self.inputView.send setTitleColor:[UIColor baseColor] forState:UIControlStateNormal];
+//    }else{
+//        [self.inputView.send setTitleColor:[UIColor textColor2] forState:UIControlStateNormal];
+//    }
+//    [UIView animateWithDuration:0.25 animations:^{
+//        self.backView.alpha = 0.25;
+//        self.alpha = 1;
+//    } completion:^(BOOL finished) {
+//    }];
+//    [self.inputView.inputText becomeFirstResponder];
+//}
+
+
+//ifSingleType 1 没有取消按钮 0 正常显示
+-(void)showcommentViewWithmsg:(NSString *)msg ifSingleType:(BOOL)ifSingleType SendText:(void (^)(NSString * _Nonnull))block{
+    [APPDELEGATE.window addSubview:commentView];
+    self.sendTempText = block;
+    
+    if (ifSingleType){
+        self.inputView.cancle.hidden = YES;
+        self.inputView.titleLab.hidden = YES;
+
+        self.inputView.height_sd = 44 * kScreenScale;
+        self.inputView.inputText.width_sd = KScreenWidth - 70 * kScreenScale;
+        self.inputView.inputText.height_sd = 30 * kScreenScale;
+        self.inputView.inputText.top_sd = 7 * kScreenScale;
+        self.inputView.send.backgroundColor = [UIColor whiteColor];
+        self.inputView.send.height_sd = self.inputView.inputText.height_sd;
+        self.inputView.send.top_sd = self.inputView.inputText.top_sd;
+        
+        if([self.inputView.placeStr isEqualToString:msg]){
+            if ([[NSString trimString:self.inputView.inputText.text] length] == 0){
+                self.inputView.inputText.text = msg;
+                self.inputView.clear = NO;
+            }
+        }else{
+            self.inputView.inputText.text = msg;
+            self.inputView.placeStr = msg;
+            self.inputView.clear = NO;
+        }
+    }else{
+        
+        self.inputView.cancle.hidden = NO;
+        self.inputView.titleLab.hidden = NO;
+        self.inputView.titleLab.text = msg;
+        self.inputView.send.backgroundColor = [UIColor clearColor];
+        self.inputView.frame = CGRectMake(0, KScreenHeight -  140+65+15 - KTopHeight, KScreenWidth, 40+65+15);
+        self.inputView.inputText.frame = CGRectMake(12, self.inputView.cancle.bottom_sd, self.inputView.width_sd-24, 65);
+        self.inputView.send.bounds = self.inputView.cancle.bounds;
+        self.inputView.send.right_sd = self.inputView.width_sd-12;
+        self.inputView.send.centerY_sd = self.inputView.cancle.centerY_sd;
+        self.inputView.placeStr = @"";
+    }
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        self.backView.alpha = 0.25;
+        self.alpha = 1;
+    } completion:^(BOOL finished) {
+    }];
+
+    [self.inputView.inputText becomeFirstResponder];
+}
+
+
+-(void)hidden{
+    [self.inputView.inputText resignFirstResponder];
+    [self removeFromSuperview];
+}
+
+
+
+#pragma mark - 键盘通知
+-(void)keyBoard:(NSNotification *)notification{
+    //获取userInfo
+    NSDictionary *userInfo = [notification userInfo];
+    //获取键盘的size
+    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGRect keyboardRect = [aValue CGRectValue];    //键盘的y偏移量
+    
+    //键盘弹出的时间
+    float duration = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    
+    //界面偏移动画
+    [UIView animateWithDuration:duration animations:^{
+        self.inputView.bottom_sd = keyboardRect.origin.y;
+    }];
+}
+
+
+
+
+
+
+
+@end
+
+

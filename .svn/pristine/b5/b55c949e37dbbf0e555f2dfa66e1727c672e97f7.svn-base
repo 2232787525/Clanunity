@@ -1,0 +1,60 @@
+//
+//  MypresentViewController.swift
+//  Clanunity
+//
+//  Created by wangyadong on 2018/2/28.
+//  Copyright © 2018年 DlmTechnology. All rights reserved.
+//
+
+import UIKit
+
+class MypresentViewController: KBaseClanViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        let btn = UIButton.init(frame: CGRect.init(x: 0, y: 0, width: 100, height: 100))
+        btn.backgroundColor = UIColor.red
+        btn.handleEventTouchUpInside {
+            self.kBackBtnAction()
+        }
+        self.view.addSubview(btn);
+        
+        let right = UIButton.init(frame: CGRect.init(x: 0, y: 0, width: 100, height: 100))
+        right.right_sd = KScreenWidth;
+        right.backgroundColor = UIColor.red
+        self.view.addSubview(right)
+        right.handleEventTouchUpInside {
+            
+            LoginServer.share.showLoginVC(block: { (status) in
+                
+            })
+           
+            
+
+            
+            
+        }
+        
+        
+        
+        // Do any additional setup after loading the view.
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
+}

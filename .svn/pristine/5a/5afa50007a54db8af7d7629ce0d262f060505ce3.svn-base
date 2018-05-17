@@ -1,0 +1,6 @@
+framework module XHImageViewer {
+  umbrella header "XHImageViewer-umbrella.h"
+
+  export *
+  module * { export * }
+}
